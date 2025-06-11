@@ -1,0 +1,267 @@
+﻿@model InvoiceViewModel
+
+@{
+    ViewData["Title"] = "Invoice Details";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Cure & Care</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', sans-serif;
+            color: #1e293b;
+            padding: 40px;
+        }
+
+        .details-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        .card-header {
+            background: linear-gradient(135deg, #0f766e, #065f46);
+            color: #ffffff;
+            border-radius: 15px 15px 0 0;
+            padding: 1.2rem 1.5rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+            .detail-item:last-child {
+                border-bottom: none;
+            }
+
+        .detail-label {
+            flex: 0 0 40%;
+            font-weight: 500;
+            color: #1e40af;
+        }
+
+        .detail-value {
+            flex: 0 0 60%;
+            color: #475569;
+            word-break: break-word;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #0f766e, #065f46);
+            color: #ffffff;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back {
+            background-color: #64748b;
+            color: #ffffff;
+        }
+
+            .btn-back:hover {
+                background-color: #475569;
+            }
+
+        .btn-print {
+            background-color: #0f766e;
+            color: #ffffff;
+        }
+
+            .btn-print:hover {
+                background-color: #115e59;
+            }
+
+        @@media print {
+            .btn, .btn-print, .btn-back, .card-footer {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+                padding: 0;
+            }
+
+            .details-container {
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                transform: none;
+            }
+
+            .card-header {
+                background: #e2e8f0 !important;
+                color: #1e293b !important;
+            }
+
+            .table thead {
+                background: #e2e8f0 !important;
+                color: #1e293b !important;
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="details-container animate__animated animate__fadeIn">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-file-invoice me-2"></i>Invoice Details</h3>
+            </div>
+            <div class="card-body p-0">
+                <!-- 📄 Invoice Info -->
+                <div class="card mb-3">
+                    <div class="card-header bg-light">
+                        <h4 class="card-title">📄 Invoice Information</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="detail-item">
+                            <span class="detail-label">📋 Invoice Number:</span>
+                            <span class="detail-value">@Model.InvoiceNumber</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">👤 Customer Name:</span>
+                            <span class="detail-value">@Model.CustomerName</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🧑‍💼 Employee Name:</span>
+                            <span class="detail-value">@Model.EmployeeName</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">📅 Date:</span>
+                            <span class="detail-value">@Model.InvoiceDate.ToString("yyyy-MM-dd")</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">💳 Payment Type:</span>
+                            <span class="detail-value">@Model.PaymentType</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">💵 Total Amount:</span>
+                            <span class="detail-value">@Model.TotalAmount.ToString("C")</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🏷️ Total Discount:</span>
+                            <span class="detail-value">@Model.TotalDiscount.ToString("C")</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🧾 Net Total:</span>
+                            <span class="detail-value">@Model.NetTotal.ToString("C")</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">💸 Paid Amount:</span>
+                            <span class="detail-value">@Model.PaidAmount.ToString("C")</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">🔄 Change:</span>
+                            <span class="detail-value">@Model.Change.ToString("C")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 💊 Medicines -->
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h4 class="card-title">💊 Medicines</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Medicine Name</th>
+                                        <th>Quantity</th>
+                                        <th>MRP</th>
+                                        <th>Sale Price</th>
+                                        <th>Discount (%)</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.InvoiceItems)
+                                    {
+                                        <tr>
+                                            <td>@item.MedicineName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.MRP.ToString("C")</td>
+                                            <td>@item.SalePrice.ToString("C")</td>
+                                            <td>@item.DiscountPercentage.ToString("0.00")%</td>
+                                            <td>@item.Total.ToString("C")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 text-end">
+                <a asp-action="Index" class="btn btn-back animate__animated animate__fadeInUp">
+                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                </a>
+                <button class="btn btn-print animate__animated animate__fadeInUp ms-2" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Print
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

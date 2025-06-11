@@ -1,0 +1,183 @@
+﻿@model CreateMedViewModel
+
+@{
+    ViewData["Title"] = "Edit Medicine";
+    Layout = "_DefualtLayout";
+}
+
+<style>
+    body {
+        background: #f0f4f8;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        background-color: #ffffff;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h4 {
+        font-weight: 700;
+        color: #0f766e;
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+
+    .input-group .form-control {
+        border-radius: 8px 0 0 8px;
+    }
+
+    .input-group .btn {
+        border-radius: 0 8px 8px 0;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .form-col-50 {
+        flex: 1 1 48%;
+    }
+
+    .form-col-100 {
+        flex: 1 1 100%;
+    }
+
+    .text-end {
+        text-align: end;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        border: none;
+        padding: 0.6rem 1.8rem;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+
+    .section-divider {
+        border-top: 1px dashed #ccc;
+        margin: 2rem 0 1.5rem;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="form-container">
+    <h2>✏️ Edit Medicine</h2>
+
+    <form asp-action="Edit" method="post" class="animate__animated animate__fadeInUp">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- 🧪 Medicine Info -->
+        <h4>🧪 Medicine Info</h4>
+
+        <div class="form-row">
+            <div class="form-group form-col-50">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="Packing"></label>
+                <input asp-for="Packing" class="form-control" />
+                <span asp-validation-for="Packing" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="GenericName"></label>
+                <input asp-for="GenericName" class="form-control" />
+                <span asp-validation-for="GenericName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label>Category</label>
+                <div class="input-group">
+                    <select asp-for="Cat_Name" class="form-control" asp-items="ViewBag.Categories">
+                        <option disabled selected>-- Select Category --</option>
+                    </select>
+                    <a class="btn btn-outline-secondary" href="/Category/Create">+ Add</a>
+                </div>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label>Supplier</label>
+                <div class="input-group">
+                    <select asp-for="Sup_Name" class="form-control" asp-items="ViewBag.Suppliers">
+                        <option disabled selected>-- Select Supplier --</option>
+                    </select>
+                    <a class="btn btn-outline-secondary" href="/Supplier/Create">+ Add</a>
+                </div>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="ExpiryDate"></label>
+                <input asp-for="ExpiryDate" class="form-control" type="date" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="MRP"></label>
+                <input asp-for="MRP" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="MRP" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="PrushereDate"></label>
+                <input asp-for="PrushereDate" class="form-control" type="date" />
+                <span asp-validation-for="PrushereDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- 📦 Stock Info -->
+        <hr class="section-divider" />
+        <h4>📦 Stock Info</h4>
+
+        <div class="form-row">
+            <div class="form-group form-col-50">
+                <label asp-for="BatchId"></label>
+                <input asp-for="BatchId" class="form-control" />
+                <span asp-validation-for="BatchId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="Quantity"></label>
+                <input asp-for="Quantity" type="number" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-col-50">
+                <label asp-for="SalePrice"></label>
+                <input asp-for="SalePrice" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="SalePrice" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-success btn-submit shadow-sm">💾 Update</button>
+            <a asp-action="Index" class="btn btn-secondary btn-submit shadow-sm me-2">🔙 Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,381 @@
+﻿@model InvoiceViewModel
+
+@{
+    ViewData["Title"] = "Create New Invoice";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<style>
+    body {
+        background: #f0f4f8;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        background-color: #ffffff;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h4 {
+        font-weight: 700;
+        color: #0f766e;
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .form-col-50 {
+        flex: 1 1 48%;
+    }
+
+    .form-col-100 {
+        flex: 1 1 100%;
+    }
+
+    .text-end {
+        text-align: end;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        border: none;
+        padding: 0.6rem 1.8rem;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+
+    .btn-danger {
+        border-radius: 8px;
+    }
+
+    .section-divider {
+        border-top: 1px dashed #ccc;
+        margin: 2rem 0 1.5rem;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+
+    .table {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .table .form-control {
+            margin-bottom: 0;
+        }
+</style>
+
+<div class="form-container">
+    <h2>Create New Invoice</h2>
+
+    <form asp-action="Create" method="post">
+        <!-- 📋 Invoice Info -->
+        <h4>📋 Invoice Info</h4>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-row">
+            <div class="form-group form-col-50">
+                <label asp-for="CustomerName"></label>
+                <input asp-for="CustomerName" class="form-control customer-name" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="ContactNumber"></label>
+                <input asp-for="ContactNumber" class="form-control" />
+                <span asp-validation-for="ContactNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="EmployeeName"></label>
+                <input asp-for="EmployeeName" class="form-control employee-name" />
+                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="InvoiceNumber"></label>
+                <input asp-for="InvoiceNumber" class="form-control" readonly />
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="PaymentType"></label>
+                <select asp-for="PaymentType" class="form-control">
+                    <option>Cash Payment</option>
+                    <option>Card Payment</option>
+                    <option>Online</option>
+                </select>
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="InvoiceDate"></label>
+                <input asp-for="InvoiceDate" type="date" class="form-control" />
+                <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="PaidAmount"></label>
+                <input asp-for="PaidAmount" class="form-control" />
+                <span asp-validation-for="PaidAmount" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- 💊 Medicines -->
+        <hr class="section-divider" />
+        <h4>💊 Medicines</h4>
+
+        <div class="form-group form-col-100">
+            <table class="table table-bordered" id="medicineTable">
+                <thead>
+                    <tr>
+                        <th>Medicine Name</th>
+                        <th>Batch ID</th>
+                        <th>Available Qty</th>
+                        <th>Expiry</th>
+                        <th>Quantity</th>
+                        <th>Sale Price</th>
+                        <th>Discount (%)</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="medicineBody">
+                    <tr>
+                        <td><input name="InvoiceItems[0].MedicineName" class="form-control med-name" /></td>
+                        <td><input name="InvoiceItems[0].BatchId" class="form-control batch" readonly /></td>
+                        <td><input name="InvoiceItems[0].AvailableQty" class="form-control" readonly /></td>
+                        <td><input name="InvoiceItems[0].Expiry" class="form-control" readonly /></td>
+                        <td><input name="InvoiceItems[0].Quantity" class="form-control quantity" /></td>
+                        <td><input name="InvoiceItems[0].SalePrice" class="form-control sale-price" readonly /></td>
+                        <td><input name="InvoiceItems[0].DiscountPercentage" class="form-control discount" /></td>
+                        <td><input name="InvoiceItems[0].Total" class="form-control total" readonly /></td>
+                        <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">🗑</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" onclick="addRow()">Add Medicine</button>
+        </div>
+
+        <!-- 💰 Totals -->
+        <hr class="section-divider" />
+        <h4>💰 Totals</h4>
+
+        <div class="form-row">
+            <div class="form-group form-col-50">
+                <label asp-for="TotalAmount"></label>
+                <input asp-for="TotalAmount" class="form-control total-amount" readonly />
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="TotalDiscount"></label>
+                <input asp-for="TotalDiscount" class="form-control total-discount" readonly />
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="NetTotal"></label>
+                <input asp-for="NetTotal" class="form-control net-total" readonly />
+            </div>
+            <div class="form-group form-col-50">
+                <label asp-for="Change"></label>
+                <input asp-for="Change" class="form-control change" readonly />
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary">💾 Save</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function bindEvents(row) {
+            row.find('.quantity, .discount').on('input', function () {
+                calculateRowTotal(row[0]);
+            });
+        }
+
+        function bindAutocomplete(row, index) {
+            row.find('.med-name').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Invoice/GetMedicineDetails',
+                        data: { name: request.term },
+                        dataType: 'json',
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.medicineName,
+                                    value: item.medicineName,
+                                    batchId: item.batchId,
+                                    availableQty: item.availableQty,
+                                    expiry: item.expiry,
+                                    salePrice: item.salePrice
+                                };
+                            }));
+                        },
+                        error: function () {
+                            alert('خطأ في جلب بيانات الدواء!');
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    row.find('.batch').val(ui.item.batchId);
+                    row.find('[name$="AvailableQty"]').val(ui.item.availableQty);
+                    row.find('[name$="Expiry"]').val(ui.item.expiry);
+                    row.find('.sale-price').val(ui.item.salePrice);
+                    calculateRowTotal(row[0]);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // Autocomplete: Customers
+            $('.customer-name').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Invoice/GetCustomerDetails',
+                        data: { name: request.term },
+                        dataType: 'json',
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.customerName,
+                                    value: item.customerName,
+                                    address: item.address,
+                                    contactNumber: item.contactNumber
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    $('[name="Address"]').val(ui.item.address);
+                    $('[name="ContactNumber"]').val(ui.item.contactNumber);
+                }
+            });
+
+            // Autocomplete: Employee
+            $('.employee-name').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Invoice/GetEmployeeDetails',
+                        data: { name: request.term },
+                        dataType: 'json',
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.employeeName,
+                                    value: item.employeeName
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2
+            });
+
+            bindEvents($('#medicineBody tr').first());
+            bindAutocomplete($('#medicineBody tr').first(), 0);
+
+            // Calculate totals when paid amount changes
+            $('[name="PaidAmount"]').on('input', calculateTotals);
+        });
+
+        function addRow() {
+            var index = $('#medicineBody tr').length;
+            var rowHtml = `<tr>
+                <td><input name="InvoiceItems[${index}].MedicineName" class="form-control med-name" /></td>
+                <td><input name="InvoiceItems[${index}].BatchId" class="form-control batch" readonly /></td>
+                <td><input name="InvoiceItems[${index}].AvailableQty" class="form-control" readonly /></td>
+                <td><input name="InvoiceItems[${index}].Expiry" class="form-control" readonly /></td>
+                <td><input name="InvoiceItems[${index}].Quantity" class="form-control quantity" /></td>
+                <td><input name="InvoiceItems[${index}].SalePrice" class="form-control sale-price" readonly /></td>
+                <td><input name="InvoiceItems[${index}].DiscountPercentage" class="form-control discount" /></td>
+                <td><input name="InvoiceItems[${index}].Total" class="form-control total" readonly /></td>
+                <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">🗑</button></td>
+            </tr>`;
+            $('#medicineBody').append(rowHtml);
+
+            let newRow = $('#medicineBody tr').last();
+            bindEvents(newRow);
+            bindAutocomplete(newRow, index);
+        }
+
+        function removeRow(btn) {
+            $(btn).closest('tr').remove();
+            calculateTotals();
+        }
+
+        function calculateRowTotal(row) {
+            let $row = $(row);
+            let qty = parseFloat($row.find('.quantity').val()) || 0;
+            let salePrice = parseFloat($row.find('.sale-price').val()) || 0;
+            let discount = parseFloat($row.find('.discount').val()) || 0;
+            let availableQty = parseFloat($row.find('[name$="AvailableQty"]').val()) || 0;
+
+            if (qty > availableQty) {
+                alert('الكمية المطلوبة أكبر من المتاحة!');
+                $row.find('.quantity').val(availableQty);
+                qty = availableQty;
+            }
+
+            let total = qty * salePrice;
+            let discountAmount = total * (discount / 100);
+            let finalTotal = total - discountAmount;
+
+            $row.find('.total').val(finalTotal.toFixed(2));
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            let totalAmount = 0, totalDiscount = 0;
+
+            $('#medicineBody tr').each(function () {
+                let qty = parseFloat($(this).find('.quantity').val()) || 0;
+                let salePrice = parseFloat($(this).find('.sale-price').val()) || 0;
+                let discount = parseFloat($(this).find('.discount').val()) || 0;
+
+                let total = qty * salePrice;
+                let discountAmount = total * (discount / 100);
+                totalAmount += total;
+                totalDiscount += discountAmount;
+            });
+
+            $('.total-amount').val(totalAmount.toFixed(2));
+            $('.total-discount').val(totalDiscount.toFixed(2));
+            $('.net-total').val((totalAmount - totalDiscount).toFixed(2));
+
+            let paid = parseFloat($('[name="PaidAmount"]').val()) || 0;
+            $('.change').val((paid - (totalAmount - totalDiscount)).toFixed(2));
+        }
+    </script>
+}

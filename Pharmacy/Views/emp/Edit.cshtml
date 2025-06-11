@@ -1,0 +1,94 @@
+﻿@model emp
+@{
+    ViewData["Title"] = "Edit Pharmacist";
+    Layout = "_DefualtLayout";
+}
+
+<h1 class="text-center mt-4"><i class="fas fa-user-edit"></i> Edit Pharmacist</h1>
+
+<div class="container mt-4">
+    <hr />
+
+    @* رسائل التنبيه *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger text-center">@TempData["Error"]</div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.UserName, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Phone, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Address, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Permission_Level, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Permission_Level, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Permission_Level, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Salary, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Salary, new { @class = "form-control", type = "number", step = "0.01" })
+                @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Shift, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Shift, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Shift, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">New Password</label>
+                <input type="password" name="NewPassword" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" name="ConfirmPassword" class="form-control" />
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save
+            </button>
+            <a href="@Url.Action("Index", "emp")" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    }
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

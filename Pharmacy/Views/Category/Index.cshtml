@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<style type="text/css">
+    /* Custom styles for professional look */
+    body {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2.text-primary {
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        font-weight: 700;
+        margin-bottom: 2rem;
+        padding: 0.5rem;
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .btn-success {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    .table {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .table thead {
+            background: linear-gradient(to right, #10b981, #06b6d4);
+            color: #fff;
+        }
+
+        .table th, .table td {
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+            .table tbody tr:hover {
+                background: #f1f5f9;
+            }
+
+    .btn-warning, .btn-danger {
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-warning:hover, .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-warning {
+        background-color: #f59e0b;
+        border-color: #f59e0b;
+    }
+
+    .btn-danger {
+        background-color: #dc2626;
+        border-color: #dc2626;
+    }
+
+    /* Media query for responsiveness */
+    @@media (max-width: 768px) {
+        .table th, .table td {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+
+        .btn-success, .btn-warning, .btn-danger {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container animate_animated animate_fadeIn">
+    <h2 class="text-primary">Categories</h2>
+
+    <a class="btn btn-success mb-4 animate_animated animate_fadeIn" asp-action="Create">Add New Category</a>
+
+    <table class="table table-bordered table-striped animate_animated animate_fadeInUp">
+        <thead class="table-dark">
+            <tr>
+                <th>Category Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Cat_Name</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Cat_ID" class="btn btn-warning btn-sm me-1 animate_animated animate_fadeInLeft">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Cat_ID" class="btn btn-danger btn-sm me-1 animate_animated animate_fadeInRight">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                        <a asp-action="Medicines" asp-route-id="@item.Cat_ID" class="btn btn-info btn-sm animate_animated animate_fadeIn">
+                            <i class="fas fa-pills"></i> View Medicines
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

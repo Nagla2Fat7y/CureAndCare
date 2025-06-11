@@ -1,0 +1,34 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml"; // Adjust to match your layout file name
+}
+
+<div class="container mt-4">
+    <h3><i class="fa fa-user"></i> Profile</h3>
+    <small>Manage User Details</small>
+    <hr style="border: 1px solid red;" />
+
+    <form method="post" asp-action="Profile">
+        <input type="hidden" asp-for="User_Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Username :</label>
+            <input type="text" class="form-control" asp-for="username" value="@Model.username" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email :</label>
+            <input type="email" class="form-control" asp-for="email" value="@Model.email" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password Hash :</label>
+            <input type="text" class="form-control" asp-for="Password_Hash" value="@Model.Password_Hash" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Permission Level :</label>
+            <input type="text" class="form-control" asp-for="Permission_Level" value="@Model.Permission_Level" />
+        </div>
+        <button type="submit" class="btn btn-success">UPDATE</button>
+        <a href="@Url.Action("Profile", new { id = Model.User_Id })" class="btn btn-danger">CANCEL</a>
+    </form>
+</div>

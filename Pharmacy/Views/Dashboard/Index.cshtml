@@ -1,0 +1,300 @@
+﻿@model DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow: 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        @@keyframes fadeIn {
+            0%
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .btn {
+            transition: background-color 0.3s ease, transform: 0.3s ease;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
+
+        canvas {
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 fade-in">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="fw-bold">📊 Dashboard</h2>
+                <hr />
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3">
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Customer" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-primary">
+                    <div class="card-body text-center">
+                        <h6>Total Customers</h6>
+                        <h3>@Model.CustomerCount</h3>
+                        <i class="bi bi-people fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Supplier" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-secondary">
+                    <div class="card-body text-center">
+                        <h6>Total Suppliers</h6>
+                        <h3>@Model.SupplierCount</h3>
+                        <i class="bi bi-truck fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Med" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-success">
+                    <div class="card-body text-center">
+                        <h6>Total Medicines</h6>
+                        <h3>@Model.MedicineCount</h3>
+                        <i class="bi bi-capsule fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Dashboard" asp-action="OutOfStock" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 text-white bg-danger">
+                        <div class="card-body text-center">
+                            <h6>Out of Stock</h6>
+                            <h3>@Model.OutOfStockCount</h3>
+                            <i class="bi bi-exclamation-triangle fs-3"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Dashboard" asp-action="Expired" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-dark">
+                    <div class="card-body text-center">
+                        <h6>Expired</h6>
+                        <h3>@Model.ExpiredCount</h3>
+                        <i class="bi bi-x-octagon fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Dashboard" asp-action="LowStock" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-warning">
+                    <div class="card-body text-center">
+                        <h6>Low Stock</h6>
+                        <h3>@Model.LowStockCount</h3>
+                        <i class="bi bi-exclamation-circle fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-xl-2">
+                <a asp-controller="Invoice" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm border-0 text-white bg-info">
+                    <div class="card-body text-center">
+                        <h6>Total Invoices</h6>
+                        <h3>@Model.InvoiceCount</h3>
+                        <i class="bi bi-receipt fs-3"></i>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <canvas id="dashboardChart" style="max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Report -->
+        <div class="row mt-5">
+            <div class="col-md-4 offset-md-8">
+                <div class="card shadow border-danger">
+                    <div class="card-header bg-danger text-white">
+                        Today's Report
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">💰 Total Sales: <strong class="text-success">@Model.TotalSales.ToString("C")</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row text-center g-3" style="margin-top: 4rem;">
+            <div class="col-md-3">
+                <a href="/Invoice/Create" class="btn btn-outline-primary w-100 py-3 shadow">🧾 Create New Invoice</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Customer/Create" class="btn btn-outline-secondary w-100 py-3 shadow">👤 Add New Customer</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Med/Create" class="btn btn-outline-success w-100 py-3 shadow">💊 Add New Medicine</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Supplier/Create" class="btn btn-outline-dark w-100 py-3 shadow">🚚 Add New Supplier</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Purchase/Create" class="btn btn-outline-danger w-100 py-3 shadow">➕ Add New Purchase</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Report/SalesReport" class="btn btn-outline-info w-100 py-3 shadow">📈 Sales Report</a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Report/InventoryReport" class="btn btn-outline-warning w-100 py-3 shadow">📉 Inventory Report</a>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <!-- Chart.js CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const ctx = document.getElementById('dashboardChart').getContext('2d');
+                const dashboardChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Customers',
+                            'Suppliers',
+                            'Medicines',
+                            'Invoices',
+                            'Out of Stock',
+                            'Low Stock',
+                            'Expired'
+                        ],
+                        datasets: [{
+                            label: 'Count',
+                            data: [
+            @Model.CustomerCount,
+            @Model.SupplierCount,
+            @Model.MedicineCount,
+            @Model.InvoiceCount,
+            @Model.OutOfStockCount,
+            @Model.LowStockCount,
+            @Model.ExpiredCount
+                            ],
+                            backgroundColor: [
+                                '#0d6efd', // Primary
+                                '#6c757d', // Secondary
+                                '#198754', // Success
+                                '#0dcaf0', // Info
+                                '#dc3545', // Danger
+                                '#ffc107', // Warning
+                                '#343a40'  // Dark
+                            ],
+                            borderRadius: 6,
+                            borderSkipped: false,
+                            maxBarThickness: 40
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true
+                            },
+                            title: {
+                                display: true,
+                                text: 'Dashboard Overview',
+                                font: {
+                                    size: 18,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    color: '#333',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                grid: {
+                                    color: '#e9ecef'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#333',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+    }
+</body>
+</html>

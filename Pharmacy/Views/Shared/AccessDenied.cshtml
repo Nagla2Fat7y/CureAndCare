@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml"; // غيّر حسب Layout بتاعك
+}
+
+<div style="text-align:center; margin-top: 100px;">
+    <h2 style="color: #e11d48;">⛔ Access Denied</h2>
+    <p style="font-size:18px; color: #555;">You don’t have permission to access this page.</p>
+    <a href="@Url.Action("Index", "Dashboard")" class="btn btn-primary" style="margin-top: 20px;">
+        ⬅️ Back to Dashboard
+    </a>
+</div>

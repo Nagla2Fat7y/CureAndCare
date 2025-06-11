@@ -1,0 +1,50 @@
+﻿@model CreateMedViewModel
+
+@{
+    ViewData["Title"] = "Delete Medicine";
+    Layout = "_DefualtLayout";
+}
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 rounded-4 animate__animated animate__fadeInDown" style="max-width: 700px; width: 100%;">
+        <div class="card-header bg-danger text-white rounded-top-4">
+            <h4 class="mb-0">⚠️ Confirm Deletion</h4>
+        </div>
+
+        <div class="card-body px-4 py-4">
+            <p class="text-danger fs-5 fw-semibold mb-4">
+                Are you sure you want to permanently delete this medicine and its stock information?
+            </p>
+
+            <h5 class="text-dark mb-3">💊 Medicine Details</h5>
+            <ul class="list-group list-group-flush border rounded mb-4">
+                <li class="list-group-item"><strong>Name:</strong> @Model.Name</li>
+                <li class="list-group-item"><strong>Packing:</strong> @Model.Packing</li>
+                <li class="list-group-item"><strong>Generic Name:</strong> @Model.GenericName</li>
+                <li class="list-group-item"><strong>Category:</strong> @Model.Cat_Name</li>
+                <li class="list-group-item"><strong>Supplier:</strong> @Model.Sup_Name</li>
+                <li class="list-group-item"><strong>Expiry Date:</strong> @Model.ExpiryDate.ToShortDateString()</li>
+
+                <li class="list-group-item"><strong>MRP:</strong> @Model.MRP.ToString("C")</li>
+            </ul>
+
+            <h5 class="text-dark mb-3">📦 Stock Information</h5>
+            <ul class="list-group list-group-flush border rounded mb-4">
+                <li class="list-group-item"><strong>Batch ID:</strong> @Model.BatchId</li>
+               
+                <li class="list-group-item"><strong>Quantity:</strong> @Model.Quantity</li>
+            </ul>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-secondary px-4">← Cancel</a>
+                    <button type="submit" class="btn btn-danger px-4">🗑 Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<emp>
+
+@{
+    ViewData["Title"] = "Search Employee";
+    Layout = "_DefualtLayout";
+
+}
+
+<h1 class="text-center mt-4"><i class="fas fa-search"></i> Search Employees</h1>
+
+<div class="container mt-4">
+    <p class="text-muted">Find employee by Name, Email, or Phone</p>
+
+    <div class="mb-4">
+        @using (Html.BeginForm("Search", "emp", FormMethod.Get))
+        {
+            <div class="input-group w-50">
+                <input type="text" name="searchString" class="form-control" placeholder="Search..." value="@ViewBag.SearchString" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>SL.</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Shift</th>
+                    <th>Hire Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int serial = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@serial</td>
+                        <td>@item.UserName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Address</td>
+                        <td>@item.Shift</td>
+                        <td>@item.HireDate.ToShortDateString()</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "emp", new { id = item.Id })" class="btn btn-info btn-sm me-1" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", "emp", new { id = item.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this employee?');" title="Delete">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    serial++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No employees found.</div>
+    }
+
+    <div class="mt-4">
+        <button class="btn btn-secondary" onclick="history.back();">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </div>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

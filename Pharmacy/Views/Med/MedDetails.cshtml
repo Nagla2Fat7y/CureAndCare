@@ -1,0 +1,165 @@
+﻿@model CreateMedViewModel
+
+@{
+    ViewData["Title"] = "Medicine Details";
+    Layout = "_DefualtLayout";
+}
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+    body {
+        background: #f0f4f8;
+        font-family: 'Segoe UI', sans-serif;
+        color: #1e293b;
+    }
+
+    .details-container {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-header {
+        background: linear-gradient(135deg, #0f766e, #065f46);
+        color: #ffffff;
+        border-radius: 15px 15px 0 0;
+        padding: 1.2rem 1.5rem;
+    }
+
+    .card-title {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .detail-item {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 1.2rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+    .detail-label {
+        flex: 0 0 40%;
+        font-weight: 500;
+        color: #1e40af;
+    }
+
+    .detail-value {
+        flex: 0 0 60%;
+        color: #475569;
+        word-break: break-word;
+    }
+
+    .text-end {
+        text-align: end;
+    }
+
+    .btn {
+        padding: 0.6rem 1.5rem;
+        font-weight: 500;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-secondary {
+        background-color: #64748b;
+        color: #ffffff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+</style>
+
+<div class="details-container animate__animated animate__fadeIn">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">💊 Medicine Details</h3>
+        </div>
+        <div class="card-body p-0">
+            <!-- 🧪 Medicine Info -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h4 class="card-title">🧪 Medicine Info</h4>
+                </div>
+                <div class="card-body p-0">
+                    <div class="detail-item">
+                        <span class="detail-label">🧪 Name:</span>
+                        <span class="detail-value">@Model.Name</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📦 Packing:</span>
+                        <span class="detail-value">@Model.Packing</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🧬 Generic Name:</span>
+                        <span class="detail-value">@Model.GenericName</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🏷️ Category:</span>
+                        <span class="detail-value">@Model.Cat_Name</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🚚 Supplier:</span>
+                        <span class="detail-value">@Model.Sup_Name</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">⏳ Expiry Date:</span>
+                        <span class="detail-value">@Model.ExpiryDate.ToShortDateString()</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📅 Purchase Date:</span>
+                        <span class="detail-value">@Model.PrushereDate.ToShortDateString()</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💰 MRP:</span>
+                        <span class="detail-value">@Model.MRP.ToString("C")</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📦 Stock Info -->
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h4 class="card-title">📦 Stock Info</h4>
+                </div>
+                <div class="card-body p-0">
+                    <div class="detail-item">
+                        <span class="detail-label">🔖 Batch ID:</span>
+                        <span class="detail-value">@Model.BatchId</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📦 Quantity:</span>
+                        <span class="detail-value">@Model.Quantity</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💵 Sale Price:</span>
+                        <span class="detail-value">@Model.SalePrice.ToString("C")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-transparent border-top-0 text-end">
+            <a asp-action="Index" class="btn btn-secondary animate__animated animate__fadeInUp">← Back to List</a>
+        </div>
+    </div>
+</div>

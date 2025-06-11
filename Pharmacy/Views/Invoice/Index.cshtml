@@ -1,0 +1,161 @@
+﻿@model List<InvoiceViewModel>
+
+@{
+    ViewData["Title"] = "Invoice List";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<style>
+    .section-title {
+        color: #0f766e;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-add {
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 8px 20px;
+    }
+
+    .table thead {
+        background: linear-gradient(to right, #0f766e, #115e59);
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    .action-buttons .btn {
+        margin-right: 6px;
+        border-radius: 6px;
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    /* Print-specific styles */
+    @@media print {
+        .action-buttons, .btn-add, .section-title::before
+
+    {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    .table thead {
+        background: #0f766e !important;
+        color: white !important;
+    }
+
+    .table {
+        border: 1px solid #dee2e6;
+    }
+
+    .container {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    }
+</style>
+
+<div class="container py-4 fade-in">
+    <h2 class="section-title">📄 Invoice List</h2>
+
+    <!-- ➕ Add New Invoice -->
+    <div class="mb-3">
+        <a asp-action="Create" class="btn btn-success btn-add shadow-sm">➕ Create New Invoice</a>
+    </div>
+
+    <!-- 📋 Invoice Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Invoice No.</th>
+                    <th>Customer</th>
+                    <th>Employee</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Discount</th>
+                    <th>Net Total</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var invoice in Model)
+                    {
+                        <tr>
+                            <td>@invoice.InvoiceNumber</td>
+                            <td>@invoice.CustomerName</td>
+                            <td>@invoice.EmployeeName</td>
+                            <td>@invoice.InvoiceDate.ToString("yyyy-MM-dd")</td>
+                            <td>@invoice.TotalAmount.ToString("C")</td>
+                            <td>@invoice.TotalDiscount.ToString("C")</td>
+                            <td>@invoice.NetTotal.ToString("C")</td>
+                            <td class="text-center action-buttons">
+                                <a asp-action="Details" asp-route-id="@invoice.InvoiceId" class="btn btn-sm btn-info">📄 Details</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            😕 No invoices found.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.print-btn').on('click', function () {
+                var invoiceId = $(this).data('invoice-id');
+                var printUrl = '@Url.Action("Print", "Invoice")/' + invoiceId;
+
+                // Open a new window for the print view
+                var printWindow = window.open(printUrl, '_blank');
+
+                // Wait for the window to load, then trigger print
+                printWindow.onload = function () {
+                    printWindow.print();
+                    // Optionally close the window after printing (uncomment if desired)
+                    // printWindow.onafterprint = function () {
+                    //     printWindow.close();
+                    // };
+                };
+            });
+        });
+    </script>
+}

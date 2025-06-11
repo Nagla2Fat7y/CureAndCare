@@ -1,0 +1,137 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Edit Customer";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .custom-card {
+        background-color: #f0fdfa;
+        border: 1px solid #ccfbf1;
+        border-radius: 8px;
+    }
+
+    .custom-header {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        color: #ffffff;
+        border-radius: 8px 8px 0 0;
+        padding: 1rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.75rem;
+    }
+
+    .form-label {
+        color: #064e3b;
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #a7f3d0;
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+    }
+
+        .form-control:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25);
+            outline: none;
+        }
+
+    .btn-primary {
+        background-color: #10b981;
+        border-color: #10b981;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #059669;
+            border-color: #059669;
+        }
+
+    .btn-secondary {
+        border-color: #06b6d4;
+        color: #06b6d4;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        background-color: transparent;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        margin-left: 1rem;
+    }
+
+        .btn-secondary:hover {
+            background-color: #e0f2fe;
+            border-color: #0284c7;
+            color: #0284c7;
+            text-decoration: none;
+        }
+
+    .container {
+        margin-top: 3rem;
+        max-width: 600px;
+    }
+</style>
+
+<div class="container">
+    <div class="card shadow-lg custom-card animate__animated animate__fadeInUp">
+        <div class="custom-header">
+            <h2 class="mb-0"><i class="fas fa-user-edit"></i> Edit Customer</h2>
+        </div>
+        <div class="card-body p-4">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.Customer_Id)
+
+                <div class="mb-4">
+                    @Html.LabelFor(model => model.Name, new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter customer name" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(model => model.Phone, new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", placeholder = "Enter contact number" })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(model => model.Add, "Address", new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.Add, new { @class = "form-control", placeholder = "Enter address" })
+                    @Html.ValidationMessageFor(model => model.Add, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(model => model.Loyalty_Points, new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.Loyalty_Points, new { @class = "form-control", placeholder = "Enter loyalty points" })
+                    @Html.ValidationMessageFor(model => model.Loyalty_Points, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a href="@Url.Action("Index", "Customer")" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

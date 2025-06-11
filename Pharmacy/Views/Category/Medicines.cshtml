@@ -1,0 +1,141 @@
+﻿@model List<Med>
+
+@{
+    ViewData["Title"] = "Medicines in Category";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+    body {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2.title {
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        font-weight: 700;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 10px;
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        margin-bottom: 2rem;
+    }
+
+    .btn-back {
+        background: #64748b;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-back:hover {
+            background-color: #475569;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+    .table {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+        .table thead {
+            background: linear-gradient(to right, #10b981, #06b6d4);
+            color: #fff;
+        }
+
+        .table th, .table td {
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+    .no-meds {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 2rem;
+        color: #64748b;
+    }
+
+    @@media (max-width: 768px) {
+        .table th, .table td {
+            font-size: 0.9rem;
+            padding: 0.6rem;
+        }
+
+        .btn-back {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+        }
+    }
+</style>
+
+<div class="container animate_animated animate_fadeIn">
+    <h2 class="title">Medicines in Category</h2>
+
+    <a asp-action="Index" asp-controller="Category" class="btn-back mb-3">
+        <i class="fas fa-arrow-left"></i> Back to Categories
+    </a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped animate_animated animate_fadeInUp">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Packing</th>
+                    <th>Generic Name</th>
+                    <th>Sale Price</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var med in Model)
+                {
+                    <tr>
+                        <td>@med.Name</td>
+                        <td>@med.Packing</td>
+                        <td>@med.GenericName</td>
+                        <td>@med.SalePrice</td>
+                        <td>@med.ExpiryDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="no-meds animate_animated animate_fadeInDown">
+            <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i>
+            No Medicines in this Category
+        </div>
+    }
+</div>

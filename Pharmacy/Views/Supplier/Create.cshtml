@@ -1,0 +1,101 @@
+﻿@model Supplier
+
+@{
+    ViewData["Title"] = "Add Supplier";
+    Layout = "~/Views/Shared/_DefualtLayout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        min-height: 100vh;
+    }
+
+    .custom-card {
+        background-color: #f0fdfa;
+        border: 1px solid #ccfbf1;
+    }
+
+    .custom-header {
+        background: linear-gradient(to right, #10b981, #06b6d4);
+        color: #ffffff;
+    }
+
+    .custom-btn-primary {
+        background-color: #10b981;
+        border-color: #10b981;
+    }
+
+        .custom-btn-primary:hover {
+            background-color: #059669;
+            border-color: #059669;
+        }
+
+    .custom-btn-secondary {
+        border-color: #06b6d4;
+        color: #06b6d4;
+    }
+
+        .custom-btn-secondary:hover {
+            background-color: #e0f2fe;
+            border-color: #0284c7;
+            color: #0284c7;
+        }
+
+    .form-label {
+        color: #064e3b;
+    }
+
+    .form-control:focus {
+        border-color: #06b6d4;
+        box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg custom-card animate__animated animate__fadeInUp">
+                <div class="card-header custom-header text-center">
+                    <h2 class="mb-0">Add Supplier</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" asp-controller="Supplier" method="post" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label asp-for="Sup_Name" class="form-label fw-bold">Supplier Name</label>
+                            <input asp-for="Sup_Name" class="form-control form-control-lg" placeholder="Enter supplier name" />
+                            <span asp-validation-for="Sup_Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Sup_Phone" class="form-label fw-bold">Phone Number</label>
+                            <input asp-for="Sup_Phone" class="form-control form-control-lg" placeholder="Enter phone number" />
+                            <span asp-validation-for="Sup_Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Sup_Mail" class="form-label fw-bold">Email</label>
+                            <input asp-for="Sup_Mail" class="form-control form-control-lg" placeholder="Enter email address" />
+                            <span asp-validation-for="Sup_Mail" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn custom-btn-primary btn-lg px-4">
+                                <i class="fas fa-plus me-2"></i> Add Supplier
+                            </button>
+                            <a asp-action="Index" class="btn custom-btn-secondary btn-lg px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <!-- Font Awesome (for icons) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}
